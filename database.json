@@ -1,0 +1,16 @@
+{
+    "dev": {
+      "driver": "pg",
+      "host": "127.0.0.1",
+      "database": "egfwd2",
+      "user": "fwd2",
+      "password": "udacity"
+    },
+    "test": {
+      "driver": "pg",
+      "host": "127.0.0.1",
+      "database": "egfwd2_test",
+      "user": "fwd2",
+      "password": "udacity"
+    }
+  }
