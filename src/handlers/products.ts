@@ -57,7 +57,6 @@ async function show(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
   try {
-    console.log(req.body.token);
     jwt.verify(req.body.token, process.env.TOKEN_SECRET as string);
   } catch (err) {
     res.status(401).json(`Access denied, Invalid token. ${err}`);
@@ -69,7 +68,6 @@ async function create(req: Request, res: Response) {
       price: req.body.price,
     };
     const result = await store.create(p);
-    console.log(result);
     res.status(200).json(result);
   } catch (err) {
     res.status(400).json(`internet server error, ${err}`);
