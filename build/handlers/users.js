@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRoutes = void 0;
 var users_1 = require("../models/users");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var store = new users_1.UserStore;
+var store = new users_1.UserStore();
 function index(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var result, err_1;
@@ -113,7 +113,7 @@ function create(req, res) {
                     user = {
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
-                        password: req.body.password
+                        password: req.body.password,
                     };
                     return [4 /*yield*/, store.create(user)];
                 case 1:
@@ -139,7 +139,7 @@ function authenticate(req, res) {
                     user = {
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
-                        password: req.body.password
+                        password: req.body.password,
                     };
                     return [4 /*yield*/, store.signIn(user)];
                 case 1:
@@ -148,7 +148,7 @@ function authenticate(req, res) {
                         token = jsonwebtoken_1.default.sign({ user: user }, process.env.TOKEN_SECRET);
                         res.json({
                             token: token,
-                            User: result
+                            User: result,
                         });
                     }
                     else {
@@ -164,19 +164,71 @@ function authenticate(req, res) {
         });
     });
 }
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Users:
+ *       type: object
+ *       required:
+ *         - firstName
+ *         - lastName
+ *         - password
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: The Auto-generated id of a user
+ *         firstName:
+ *           type: string
+ *           description: first name of the user
+ *         lastName:
+ *           type: string
+ *           description: last name of the user
+ *         password:
+ *           type: string
+ *           descripton: user's password
+ *       example:
+ *         id: 1
+ *         firstName: Omar
+ *         lastName: Faramawy
+ *         password: 123password
+ *
+ */
+/**
+ * @swagger
+ *  tags:
+ *    name: Users
+ *    description: users' data
+ */
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Returns all users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: the list of the users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Users'
+ */
 function userRoutes(app) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            app.get('/users', function (req, res) {
+            app.get("/users", function (req, res) {
                 index(req, res);
             });
-            app.get('/users/:id', function (req, res) {
+            app.get("/users/:id", function (req, res) {
                 show(req, res);
             });
-            app.post('/users', function (req, res) {
+            app.post("/users", function (req, res) {
                 create(req, res);
             });
-            app.post('/users/signin', function (req, res) {
+            app.post("/users/signin", function (req, res) {
                 authenticate(req, res);
             });
             return [2 /*return*/];
